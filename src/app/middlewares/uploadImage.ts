@@ -1,12 +1,28 @@
 import { NextFunction, Request, Response } from 'express';
+import fs from 'fs';
 import httpStatus from 'http-status';
 import multer from 'multer';
 import path from 'path';
 import ApiError from '../../errors/ApiError';
+
 // cloudinary config
+
+// Define the folder where images will be uploaded
+const uploadDir = './dist/uploads/';
+
+// Ensure the directory exists before using it
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir, { recursive: true });
+}
+
+// Define Multer storage
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, './uploads/');
+    // Check and create folder if necessary
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir, { recursive: true });
+    }
+    cb(null, uploadDir);
   },
   filename: function (req, file, cb) {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
@@ -14,11 +30,12 @@ const storage = multer.diskStorage({
   },
 });
 
+// Multer upload configuration
 export const uploadMulter = multer({
-  dest: './uploads/',
+  dest: uploadDir,
   storage,
   limits: {
-    fileSize: 4000000,
+    fileSize: 4000000, // Limit file size to 4MB
   },
 });
 const uploadImage = async (

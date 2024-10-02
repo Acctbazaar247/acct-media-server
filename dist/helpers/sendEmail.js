@@ -26,9 +26,9 @@ const sendEmail = ({ to, multi }, { subject, html, text }) => __awaiter(void 0, 
     //   },
     // });
     const transport = yield nodemailer_1.default.createTransport({
-        host: 'mail.privateemail.com',
-        port: 587,
-        secure: false,
+        host: 'mail.privateemail.com', // or 'smtp.privateemail.com'
+        port: 587, // or 465 for SSL
+        secure: false, // true for 465, false for 587
         auth: {
             user: config_1.default.emailUser,
             pass: config_1.default.emailUserPass,

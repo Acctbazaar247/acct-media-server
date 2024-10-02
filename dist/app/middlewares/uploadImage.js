@@ -13,25 +13,38 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.uploadMulter = void 0;
+const fs_1 = __importDefault(require("fs"));
 const http_status_1 = __importDefault(require("http-status"));
 const multer_1 = __importDefault(require("multer"));
 const path_1 = __importDefault(require("path"));
 const ApiError_1 = __importDefault(require("../../errors/ApiError"));
 // cloudinary config
+// Define the folder where images will be uploaded
+const uploadDir = './dist/uploads/';
+// Ensure the directory exists before using it
+if (!fs_1.default.existsSync(uploadDir)) {
+    fs_1.default.mkdirSync(uploadDir, { recursive: true });
+}
+// Define Multer storage
 const storage = multer_1.default.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, './uploads/');
+        // Check and create folder if necessary
+        if (!fs_1.default.existsSync(uploadDir)) {
+            fs_1.default.mkdirSync(uploadDir, { recursive: true });
+        }
+        cb(null, uploadDir);
     },
     filename: function (req, file, cb) {
         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
         cb(null, uniqueSuffix + path_1.default.extname(file.originalname));
     },
 });
+// Multer upload configuration
 exports.uploadMulter = (0, multer_1.default)({
-    dest: './uploads/',
+    dest: uploadDir,
     storage,
     limits: {
-        fileSize: 4000000,
+        fileSize: 4000000, // Limit file size to 4MB
     },
 });
 const uploadImage = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
