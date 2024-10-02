@@ -20,7 +20,7 @@ const path_1 = __importDefault(require("path"));
 const ApiError_1 = __importDefault(require("../../errors/ApiError"));
 // cloudinary config
 // Define the folder where images will be uploaded
-const uploadDir = './mnt/data/uploads';
+const uploadDir = '/mnt/data/uploads';
 // Ensure the directory exists before using it
 if (!fs_1.default.existsSync(uploadDir)) {
     fs_1.default.mkdirSync(uploadDir, { recursive: true });
