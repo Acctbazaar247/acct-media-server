@@ -8,7 +8,7 @@ import ApiError from '../../errors/ApiError';
 // cloudinary config
 
 // Define the folder where images will be uploaded
-const uploadDir = './dist/uploads/';
+const uploadDir = './mnt/data/uploads';
 
 // Ensure the directory exists before using it
 if (!fs.existsSync(uploadDir)) {

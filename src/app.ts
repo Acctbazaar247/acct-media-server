@@ -21,7 +21,10 @@ app.use(express.urlencoded({ extended: true }));
 //     tempFileDir: '/tmp/',
 //   })
 // );
-app.use('/uploads', express.static(path.join(__dirname, '../dist/uploads')));
+app.use(
+  '/uploads',
+  express.static(path.join(__dirname, '../mnt/data/uploads'))
+);
 app.use('/api/v1', routes);
 
 //global error handler
