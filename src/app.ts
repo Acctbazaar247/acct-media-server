@@ -3,7 +3,6 @@ import cors from 'cors';
 import express, { Application, NextFunction, Request, Response } from 'express';
 import httpStatus from 'http-status';
 import 'path';
-import path from 'path';
 import globalErrorHandler from './app/middlewares/globalErrorHandler';
 import routes from './app/routes';
 
@@ -21,7 +20,7 @@ app.use(express.urlencoded({ extended: true }));
 //     tempFileDir: '/tmp/',
 //   })
 // );
-app.use('/uploads', express.static(path.join(__dirname, '/mnt/data/uploads')));
+app.use('/uploads', express.static('/mnt/data/uploads'));
 app.use('/api/v1', routes);
 
 //global error handler
